@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Single Rank</title>
+
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
+
+    <link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+  </head>
+  <body>
+    <div class="row">
+      <div class="col-lg-6 col-md-6 col-lg-offset-3 col-md-offset-3">
+        <h2>Grade the Highlighted Areas</h3>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-6 col-md-6">
+        <div class="image-container">
+          <img class="large-image"  src="img/ebay_whitespace.png" />
+          <div class="grey1-part2"></div>
+          <div class="grey2-part2"></div>
+          <div class="grey2-1-part2"></div>
+          <div class="grey3-part2"></div>
+        </div>
+      </div>
+      <div class="col-lg-4 col-lg-offset-1">
+        <div class="list-group principles-table">
+          <a href="#" class="list-group-item">
+            Similarity
+            <i class="fa fa-thumbs-o-down unselected-icon pull-right"></i>
+            <i class="fa fa-thumbs-o-up unselected-icon pull-right"></i>
+          </a>
+          <a href="#" class="list-group-item">
+            Continuity
+            <i class="fa fa-thumbs-o-down unselected-icon pull-right"></i>
+            <i class="fa fa-thumbs-o-up unselected-icon pull-right"></i>
+          </a>
+          <a href="#" class="list-group-item">
+            Closure
+            <i class="fa fa-thumbs-o-down unselected-icon pull-right"></i>
+            <i class="fa fa-thumbs-o-up unselected-icon pull-right"></i>
+          </a>
+          <a href="#" class="list-group-item">
+            Proximity
+            <i class="fa fa-thumbs-o-down unselected-icon pull-right"></i>
+            <i class="fa fa-thumbs-o-up unselected-icon pull-right"></i>
+          </a>
+          <a href="#" class="list-group-item">
+            Nested Area
+            <i class="fa fa-thumbs-o-down unselected-icon pull-right"></i>
+            <i class="fa fa-thumbs-o-up unselected-icon pull-right"></i>
+          </a>
+          <a href="#" class="list-group-item">
+            Symmetry
+            <i class="fa fa-thumbs-o-down unselected-icon pull-right"></i>
+            <i class="fa fa-thumbs-o-up unselected-icon pull-right"></i>
+          </a>
+          <a href="#" class="list-group-item">
+            Whitespace
+            <i class="fa fa-thumbs-o-down unselected-icon pull-right"></i>
+            <i class="fa fa-thumbs-o-up unselected-icon pull-right"></i>
+          </a>
+        </div>
+        <div class="row">
+          <div class="col-lg-10 col-lg-offset-1">
+            <button id="nextArea" class="btn btn-primary btn-block">
+              Next
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+    <script src="js/source.js"></script>
+    <script type="text/javascript">
+      $(document).ready(function(){
+
+        $(".principles-table").delegate(".fa-thumbs-o-up", "click", function(e){
+          e.preventDefault();
+          thumbs(this);
+        });
+
+        $(".principles-table").delegate(".fa-thumbs-o-down", "click", function(e){
+          e.preventDefault();
+          thumbs(this);
+        });
+
+        $("#nextArea").on("click", function(){
+          nextArea2();
+        });
+      });
+    </script>
+  </body>
+</html>
