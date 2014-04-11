@@ -74,7 +74,7 @@
 
     <div id="submit" style="display: none;" class="row">
       <div style="margin-bottom: 50px" class="col-lg-5 col-md-5 col-lg-offset-3 col-md-offset-3">
-        <button class="btn btn-block btn-primary">Submit</button>
+        <button id="goHome" class="btn btn-block btn-primary">Submit</button>
       </div>
     </div>
 
@@ -85,7 +85,9 @@
     <script src="js/source.js"></script>
     <script type="text/javascript">
       $(document).ready(function(){
-        console.log("load");
+        $("#goHome").on("click", function(){
+          window.location.replace("index.html");
+        });
 
         $("#image1").on("click",function(){
           selectImage("image1");

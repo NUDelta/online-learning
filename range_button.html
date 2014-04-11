@@ -39,7 +39,7 @@
 
     <div id="submit" style="margin: 50px; display: none;" class="row">
       <div class="col-lg-4 col-md-4 col-lg-offset-5 col-md-offset-5">
-        <button class="btn btn-block btn-primary">
+        <button id="goHome" class="btn btn-block btn-primary">
           Submit
         </button>
 
@@ -54,6 +54,9 @@
     <script src="js/source.js"></script>
     <script type="text/javascript">
       $(document).ready(function(){
+        $("#goHome").on("click", function(){
+          window.location.replace("index.html");
+        });
         var slider = $("input[type='range']");
         $(slider).change(function(){
           updateButton($(slider).val());

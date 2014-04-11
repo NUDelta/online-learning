@@ -84,11 +84,13 @@ function switchGrey(){
 		$(grey2).fadeIn("slow");
 		$(highlighted1).fadeIn("slow");
 		$(highlighted2).fadeOut("slow");
+		$("#goHome").fadeOut("slow");
 	} else {
 		$(grey1).fadeIn("slow");
 		$(grey2).fadeOut("slow");
 		$(highlighted1).fadeOut("slow");
 		$(highlighted2).fadeIn("slow");
+		$("#goHome").fadeIn("slow");
 	}
 }
 
@@ -140,12 +142,14 @@ function switchGrey2(){
 		$(grey3).fadeIn("slow");
 		$(highlighted2).fadeOut("slow");
 		$(highlighted3).fadeIn("slow");
+		$("#goHome").fadeIn("slow");
 	} else {
 		// move to first part
 		$(grey3).fadeOut("slow");
 		$(grey1).fadeIn();
 		$(highlighted3).fadeOut("slow");
 		$(highlighted1).fadeIn("slow");
+		$("#goHome").fadeOut("slow");
 	}
 }
 
