@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Choose One</title>
+
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="row">
+      <div class="col-lg-4 col-md-4 col-lg-offset-4 col-md-offset-4">
+        <h2>Choose which sign-up form is best designed:</h3>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-4 col-md-4 col-lg-offset-1 col-md-offset-1">
+        <img  id="image1" class="large-image"  src="img/target_form.png" />
+      </div>
+      
+      <div class="col-lg-6 col-md-6">
+        <img id="image2" class="large-image" src="img/michaels_form.png" />
+      </div>
+
+    </div>
+    <div id="label-alignment" style="display: none;" class="row">
+      <div class="col-lg-5 col-md-5 col-lg-offset-3 col-md-offset-3">
+        <h3>What kind of label-alignment did this design use?</h3>
+        <div class="list-group label-alignment-selection">
+          <a href="#" class="list-group-item">
+            left-aligned labels
+          </a>
+          <a href="#" class="list-group-item">
+            right-aligned labels
+          </a>
+          <a href="#" class="list-group-item">
+            top-aligned labels
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div id="reasoning" style="display: none;" class="row">
+      <div class="col-lg-5 col-md-5 col-lg-offset-3 col-md-offset-3">
+        <h3>Why did you choose this design over the other?</h3>
+        <div class="list-group">
+          <a href="#" class="list-group-item">
+            better path to completion 
+          </a>
+          <a href="#" class="list-group-item">
+            has stronger vertical alignment
+          </a>
+          <a href="#" class="list-group-item">
+            contains less optional fields and collects only important data
+          </a>
+          <a href="#" class="list-group-item">
+            primary actions are highlighted over secondary actions
+          </a>
+          <a href="#" class="list-group-item">
+            help and tips are more helpful than distracting
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div id="submit" style="display: none;" class="row">
+      <div style="margin-bottom: 50px" class="col-lg-5 col-md-5 col-lg-offset-3 col-md-offset-3">
+        <button class="btn btn-block btn-primary">Submit</button>
+      </div>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+    <script src="js/source.js"></script>
+    <script type="text/javascript">
+      $(document).ready(function(){
+        console.log("load");
+
+        $("#image1").on("click",function(){
+          selectImage("image1");
+        });
+
+        $("#image2").on("click", function(){
+          selectImage("image2");
+        });
+
+        $(".label-alignment-selection").delegate("a", "click",function(e){
+          e.preventDefault();
+          console.log($(this).html());
+          selectLabelAlignment(this);
+        });
+
+        $("#reasoning").delegate("a", "click", function(e){
+          e.preventDefault();
+          selectFactors(this);
+        });
+      });
+
+    </script>
+  </body>
+</html>
