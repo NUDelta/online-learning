@@ -122,21 +122,30 @@ function switchGrey2(){
 	var grey2 = $(".grey2-part2");
 	var grey21 = $(".grey2-1-part2");
 	var grey3 = $(".grey3-part2");
+	var highlighted1 = $(".highlighted1-part2");
+	var highlighted2 = $(".highlighted2-part2");
+	var highlighted3 = $(".highlighted3-part2");
 
 	if($(grey1).css("display") == "block"){
 		//move to second part
 		$(grey1).fadeOut("slow");
 		$(grey2).fadeIn("slow");
 		$(grey21).fadeIn("slow");
+		$(highlighted1).fadeOut("slow");
+		$(highlighted2).fadeIn("slow");
 	} else if($(grey2).css("display") == "block"){
 		// move to third part
 		$(grey2).fadeOut("slow");
 		$(grey21).fadeOut("slow");
 		$(grey3).fadeIn("slow");
+		$(highlighted2).fadeOut("slow");
+		$(highlighted3).fadeIn("slow");
 	} else {
 		// move to first part
 		$(grey3).fadeOut("slow");
 		$(grey1).fadeIn();
+		$(highlighted3).fadeOut("slow");
+		$(highlighted1).fadeIn("slow");
 	}
 }
 
