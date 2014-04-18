@@ -159,6 +159,24 @@ function nextArea2(){
 }
 
 
+function drawVerticalLine(event){
+	var c = document.getElementById("vertical_canvas");
+	var x = event.clientX;
+	var y = event.clientY;
+	//x -= c.offsetLeft;
+	//y -= c.offsetTop;
 
+	x = x - $("canvas").offset().left;
+
+	console.log("x is at: " + x + " and y is at: " + y);
+
+	var ctx = c.getContext("2d");
+	ctx.moveTo(x,0);
+	ctx.lineTo(x,550);
+	ctx.stroke();
+
+	current = parseInt($("#count").html());
+	$("#count").html(current+1);
+}
 
 
