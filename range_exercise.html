@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Adjust Button</title>
+
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/rangeslider.css">
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="row">
+      <div class="col-lg-6 col-md-6 col-lg-offset-4 col-md-offset-4">
+        <h2>Adjust where the button best aligns on this form</h3>
+      </div>
+    </div>
+    <div class="row">
+      <div class="editable-form col-lg-6 col-md-6 col-lg-offset-4 col-md-offset-4">
+        <img id="image1" src="img/ebay_form_half.png" />
+        <img style="margin-bottom: 20px; margin-left: 300px" id="button-image" src="img/ebay_button.png" />
+      </div>
+      
+
+    </div>
+    <div style="margin: 50px" class="row">
+      <div class="col-lg-6 col-md-6 col-lg-offset-4 col-md-offset-4">
+        <input type="range">
+      </div>
+    </div>
+
+    <div id="submit" style="margin: 50px; display: none;" class="row">
+      <div class="col-lg-4 col-md-4 col-lg-offset-5 col-md-offset-5">
+        <button id="goHome" class="btn btn-block btn-primary">
+          Submit
+        </button>
+
+      </div>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+    <script src="js/rangeslider.min.js"></script>
+    <script src="js/source.js"></script>
+    <script type="text/javascript">
+      $(document).ready(function(){
+        $("#goHome").on("click", function(){
+          window.location.replace("final_choose.html");
+        });
+        var slider = $("input[type='range']");
+        $(slider).change(function(){
+          updateButton($(slider).val());
+        });
+      });
+
+    </script>
+  </body>
+</html>
