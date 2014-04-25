@@ -241,7 +241,7 @@ function drawPastLines(array){
 		ctx.moveTo(array[i], 0);
 		ctx.lineTo(array[i], 550);
 		ctx.lineWidth = 2;
-		ctx.strokeStyle = "#0099FF";
+		ctx.strokeStyle = "#99D6FF";
 		ctx.stroke();
 		console.log(array[i]);
 	}
