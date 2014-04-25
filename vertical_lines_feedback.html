@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Identify the Vertical Lines</title>
+    <title>Feedback</title>
 
     <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/style.css">
@@ -19,8 +19,8 @@
   <body>
     <div class="row">
       <div class="col-lg-6 col-md-6 col-lg-offset-3 col-md-offset-3">
-        <h2>Identify the vertical lines on this design</h2>
-        <h4>Click anywhere on the design below to begin drawing lines<h4>
+        <h2>Here's what others have done:</h2>
+        <h4>Your results are highlighted in blue while what others have said is highlighted in green according to thickness. <h4>
       </div>
     </div>
     <div class="row">
@@ -30,11 +30,9 @@
     </div>
     <div style="margin-top: 50px;" class="row">
       <div class="col-lg-4 col-md-4 col-lg-offset-3 col-md-offset-3">
-        <h5>You've currently identified <span id="count">0</span> vertical lines</h5>
+        <h5>There are currently <span id="count">120</span> aggregated vertical lines</h5>
       </div>
-      <div class="col-lg-4 col-md-4">
-        <button id="reset" class="btn btn-default btn-large">Reset</button>
-      </div>
+
     </div>
     
 
@@ -53,21 +51,24 @@
       $(document).ready(function(){
         var canvas = document.getElementById("vertical_canvas");
         canvas.addEventListener("mousedown", drawVerticalLine, false);
+        drawFeedbackLines();
 
-        $("#reset").on("click", function(e){
+        var storedNames = JSON.parse(localStorage["user_lines"]);
+        console.log(storedNames);
+        drawPastLines(storedNames);
+
+        /*$("#reset").on("click", function(e){
           e.preventDefault();
           var context = canvas.getContext('2d');
           context.beginPath();
           $("#count").html(0);
           context.clearRect(0, 0, canvas.width, canvas.height);
-        });
+        });*/
 
         $("#next").on("click", function(e){
           e.preventDefault();
-          localStorage["user_lines"] = JSON.stringify(linesArray);
-          window.location.replace("vertical_lines_feedback.html");
-
-        })
+          window.location.replace("range_exercise.html");
+        });
           
 
       });

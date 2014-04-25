@@ -6,6 +6,8 @@
 
 */
 
+linesArray = [];
+
 function selectImage(image){
 	$(".darkClass").removeClass("darkClass");
 	$(".selected-image").removeClass("selected-image");
@@ -202,6 +204,46 @@ function drawVerticalLine(event){
 
 	current = parseInt($("#count").html());
 	$("#count").html(current+1);
+
+	linesArray.push(x);
 }
 
+function drawFeedbackLines(){
+	var c = document.getElementById("vertical_canvas");
+	console.log("hello");
+	var ctx = c.getContext("2d");
+	ctx.moveTo(190,0);
+	ctx.lineTo(190,550);
+	ctx.lineWidth = 7;
+
+	ctx.strokeStyle = "#81F79F";
+	ctx.stroke();
+
+	ctx.moveTo(18,0);
+	ctx.lineTo(18,550);
+	ctx.lineWidth = 5;
+	ctx.strokeStyle = "#81F79F";
+	ctx.stroke();
+
+	ctx.moveTo(165,0);
+	ctx.lineTo(165,550);
+	ctx.lineWidth = 4;
+	ctx.strokeStyle = "#81F79F";
+	ctx.stroke();
+}
+
+function drawPastLines(array){
+	var c = document.getElementById("vertical_canvas");
+
+	var ctx = c.getContext("2d");
+
+	for(var i=0; i < array.length; i++){
+		ctx.moveTo(array[i], 0);
+		ctx.lineTo(array[i], 550);
+		ctx.lineWidth = 2;
+		ctx.strokeStyle = "#0099FF";
+		ctx.stroke();
+		console.log(array[i]);
+	}
+}
 
