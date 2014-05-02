@@ -1,0 +1,66 @@
+<template name="compare-1">
+    <html>
+        <head>
+            <meta charset="utf-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <title>Compare 1</title>
+
+            <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+            <link rel="stylesheet" href="css/style.css">
+
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+            <!-- Include all compiled plugins (below), or include individual files as needed -->
+            <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+            <script src="js/source.js"></script>
+
+        </head>
+        <body>
+
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-lg-offset-3 col-md-offset-3">
+                    <h2>Do you notice any similarities between these two web forms?</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 col-md-4 col-lg-offset-1 col-md-offset-1">
+                    <img  id="image1" class="large-image"  src="img/target_form.png" />
+                </div>
+          
+                <div class="col-lg-6 col-md-6">
+                    <img id="image2" class="large-image" src="img/michaels_form.png" />
+                </div>
+            </div>
+            
+            <div id="commonalities" class="row">
+                <div class="col-lg-5 col-md-5 col-lg-offset-3 col-md-offset-3">
+                    <h3>Select all that apply:</h3>
+                    <div class="list-group label-alignment-selection">
+                        <a href="#" class="list-group-item">
+                            similarly aligned submit buttons
+                        </a>
+                        <a href="#" class="list-group-item">
+                            usage of required fields
+                        </a>
+                        <a href="#" class="list-group-item">
+                            aligned to the left
+                        </a>
+                        <a href="#" class="list-group-item">
+                            aligned to the right
+                        </a>
+                        <a href="#" class="list-group-item">
+                            <input type="text" class="form-control" placeholder="other..">
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div id="submit" style="display: none;" class="row">
+                <div style="margin-bottom: 50px" class="col-lg-5 col-md-5 col-lg-offset-3 col-md-offset-3">
+                    <button id="goHome" class="btn btn-block btn-primary">Next</button>
+                </div>
+            </div>
+
+        </body>
+    </html>
+</template>

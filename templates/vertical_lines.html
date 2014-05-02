@@ -1,0 +1,78 @@
+<template name="vertical_lines">
+	<html lang="en">
+	  <head>
+	    <meta charset="utf-8">
+	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	    <meta name="viewport" content="width=device-width, initial-scale=1">
+	    <title>Identify the Vertical Lines</title>
+
+	    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+	    <link rel="stylesheet" href="css/style.css">
+
+	    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	    <!--[if lt IE 9]>
+	      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+	      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+	    <![endif]-->
+	  </head>
+	  <body>
+	    <div class="row">
+	      <div class="col-lg-6 col-md-6 col-lg-offset-3 col-md-offset-3">
+	        <h2>Identify the vertical lines on this design</h2>
+	        <h4>Click anywhere on the design below to begin drawing lines</h4>
+	      </div>
+	    </div>
+	    <div class="row">
+	      <div class="col-lg-8 col-md-8 col-lg-offset-3 col-md-offset-3">
+	        <canvas id="vertical_canvas" width="700" height="500"></canvas>
+	      </div>
+	    </div>
+	    <div style="margin-top: 50px;" class="row">
+	      <div class="col-lg-4 col-md-4 col-lg-offset-3 col-md-offset-3">
+	        <h5>You've currently identified <span id="count">0</span> vertical lines</h5>
+	      </div>
+	      <div class="col-lg-4 col-md-4">
+	        <button id="reset" class="btn btn-default btn-large">Reset</button>
+	      </div>
+	    </div>
+	    
+
+	    <div id="submit" style="margin-top: 30px;" class="row">
+	      <div style="margin-bottom: 50px" class="col-lg-5 col-md-5 col-lg-offset-3 col-md-offset-3">
+	        <button id="next" class="btn btn-block btn-primary">Next</button>
+	      </div>
+	    </div>
+
+	    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+	    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+	    <!-- Include all compiled plugins (below), or include individual files as needed -->
+	    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+	    <script src="js/source.js"></script>
+	    <script type="text/javascript">
+	      $(document).ready(function(){
+	        var canvas = document.getElementById("vertical_canvas");
+	        canvas.addEventListener("mousedown", drawVerticalLine, false);
+
+	        $("#reset").on("click", function(e){
+	          e.preventDefault();
+	          var context = canvas.getContext('2d');
+	          context.beginPath();
+	          $("#count").html(0);
+	          context.clearRect(0, 0, canvas.width, canvas.height);
+	        });
+
+	        $("#next").on("click", function(e){
+	          e.preventDefault();
+	          localStorage["user_lines"] = JSON.stringify(linesArray);
+	          window.location.replace("vertical_lines_feedback.html");
+
+	        });
+	          
+
+	      });
+
+	    </script>
+	  </body>
+	</html>
+</template>
