@@ -192,29 +192,6 @@
 	font-size: 20px;
 }
 
-#reports {
-	height: 500px;
-	overflow: scroll;
-}
-
-.image { 
-	border: 1px solid #ddd;
-	border-radius: 5px;
-}
-
-.testing1 {
-	background:url(/img/testing/tested1.png);
-	border: 1px solid #ddd;
-	border-radius: 5px;
-}
-
-.testing2 {
-	background:url(/img/testing/tested2.png);
-	border: 1px solid #ddd;
-	border-radius: 5px;
-}
-
-
 #michaels_form_canvas { background:url(../img/michaels_form.png)}
 #target_form_canvas { background:url(../img/target_form.png)}
 #vertical_canvas { background:url(../img/vertical_align_example.png) }

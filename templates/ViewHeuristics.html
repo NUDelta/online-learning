@@ -1,0 +1,63 @@
+<template name="ViewHeuristics">
+    <html>
+        <head>
+            <meta charset="utf-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <title>View Heuristics</title>
+
+            <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+         
+
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+            <!-- Include all compiled plugins (below), or include individual files as needed -->
+            <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+            <script src="js/source.js"></script>
+            <script type="text/javascript">
+
+            </script>
+        </head>
+        <body>
+            <div style="margin: 20px;" class="row">
+                <div class="col-lg-6 col-md-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Written Reports ({{reports.length}} reports collected) </h3>
+                        </div>
+                        <div class="panel-body">
+                            <div id="reports">
+                            {{#each reports}}
+                                <div class="panel panel-default">
+                                    <div class="panel-body">
+                                        <label>Priority</label>
+                                        <p>{{this.priority}}</p>
+                                        <label>Problem</label>
+                                        <p>{{this.problem}}</p>
+                                        <label>Proposed Solution</label>
+                                        <p>{{this.fix}}</p>
+
+                                    </div>
+                                </div>
+                            {{/each}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Strong Lines vs. Weak Lines</h3>
+                        </div>
+                        <div class="panel-body">
+                            <h5>We've collected strong and weak vertical lines from {{differentials.length}} different users</h5>
+                            <h5>The differential for each user is calculated by subtracting the number of weak lines marked by a user from the number of strong lines marked</h5>
+
+                            <p>The average differential </p>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </body>
+    </html>
+</template>

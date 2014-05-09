@@ -1,0 +1,70 @@
+<template name="compareFeedback">
+    <html>
+        <head>
+            <meta charset="utf-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <title>Compare Feedback</title>
+
+            <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+            <link rel="stylesheet" href="css/style.css">
+
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+            <!-- Include all compiled plugins (below), or include individual files as needed -->
+            <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+            <script src="js/source.js"></script>
+            <script type="text/javascript">
+                $(document).ready(function(){
+                    $("#commonalities").delegate("a", "click", function(e){
+                        e.preventDefault();
+                        selectFactors(this);
+                    });
+                });
+  
+            </script>
+        </head>
+        <body>
+
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-lg-offset-3 col-md-offset-3">
+                    <h2>Feedback</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 col-md-4 col-lg-offset-1 col-md-offset-1">
+                    <h3>Commonalities</h3>
+                    <div class="list-group">
+                        <a id="strongVertical" href="#" class="list-group-item">
+                            strong vertical lines
+                        </a>
+                        <a href="#" class="list-group-item">
+                            buttons align on strong vertical
+                        </a>
+                    </div>
+                    <h3>Differences</h3>
+                    <div class="list-group">
+                        <a href="#" class="list-group-item">
+                            strong left vertical line
+                        </a>
+                        <a href="#" class="list-group-item">
+                            strong right vertical line
+                        </a>
+                    </div>
+                    <button id="next" class="btn btn-block btn-primary">Next</button>
+
+                </div>
+                <div class="col-lg-3 col-md-3">
+                    <canvas id="target_form_canvas" width="300" height="400">
+                    </canvas>
+                </div>
+          
+                <div class="col-lg-3 col-md-3">
+                    <canvas id="michaels_form_canvas" width="300" height="400">
+                    </canvas>
+                </div>
+            </div>
+   
+
+        </body>
+    </html>
+</template>

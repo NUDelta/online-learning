@@ -1,0 +1,50 @@
+<template name="WrittenHeuristic1">
+    <html>
+        <head>
+            <meta charset="utf-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <title>Written Heuristics Testing</title>
+
+            <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+         
+
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+            <!-- Include all compiled plugins (below), or include individual files as needed -->
+            <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+            <script src="js/source.js"></script>
+            <script type="text/javascript">
+
+            </script>
+        </head>
+        <body>
+            <div style="margin: 20px;" class="row">
+                <div class="col-lg-3 col-md-3">
+                    <h3>Written Heuristics - Alignment</h3>
+                    <h5>Do you notice any problems with vertical alignment? Describe them below:</h5>
+                    <div id="heuristic">
+                        <label>Priority:</label>
+                        <select id="priority" class="form-control">
+                          <option value="cosmetic">Cosmetic - need not be fixed</option>
+                          <option value="minor">Minor - needs fixing but low priority</option>
+                          <option value="major">Major - needs fixing and high priority</option>
+                          <option value="catastrophic">Catastrophic - imperative to fix</option>
+                        </select>
+                        <label>Problem:</label>
+                        <textarea id="problem" class="form-control" rows="5" placeholder="describe the problem with vertical alignment here, be as specific as possible - how does this problem affect the user's experience?"></textarea>
+                        <label>Suggested Fix:</label>
+                        <textarea id="fix" class="form-control" rows="5" placeholder="what can the designer do to fix this? line it up with another element? move it to the left or right? be specific"></textarea>
+                        <button id="submit" style="margin-top: 20px;" class="btn btn-primary btn-block">Submit</button>
+                        <button style="margin-top: 20px" class="btn btn-danger btn-block">Exit</button>
+                    </div>
+                    <img id="werd" src="/img/check.png" style="display: none;" width="100" />
+
+                </div>
+                <div class="image col-lg-8 col-md-8">
+                    <img src="/img/testing/tested1.png" />
+                </div>
+            </div>
+            
+        </body>
+    </html>
+</template>
