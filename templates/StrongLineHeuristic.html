@@ -60,6 +60,15 @@
                     $("#switch").on("click", function(){
                         switchToWeak();
                     });
+
+                    $("#reset").on("click", function(e){
+                        e.preventDefault();
+                        var context = canvas.getContext('2d');
+                        context.beginPath();
+                        context.clearRect(0, 0, canvas.width, canvas.height);
+                        linesArray = [];
+                    });
+
                 });
             </script>
         </head>

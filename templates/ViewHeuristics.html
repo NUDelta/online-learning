@@ -52,8 +52,18 @@
                             <h5>We've collected strong and weak vertical lines from {{differentials.length}} different users</h5>
                             <h5>The differential for each user is calculated by subtracting the number of weak lines marked by a user from the number of strong lines marked</h5>
 
-                            <p>The average differential </p>
+                            <p>The average differential <b>{{averageDifferentials}}</b></p>
+                            {{#if greaterThanOrLessThan}}
+                                <p>Your average differential is <b>greater</b> than 0!! This means users are finding more strong vertical lines than weak ones - this is a good thing!!</p>
+                            {{else}}
+                                <p>Your average differential is <b>less</b> than 0!! This means users are finding more weak vertical lines than strong ones - possibly think about how to use less vertical lines in your website!!</p>
+                            {{/if}}
+                            <ul class="list-group">
+                            {{#each priorities}}
+                                <li class="list-group-item list-group-item-success">{{this[0]}}</li>
 
+                            {{/each}}
+                            </ul>
                         </div>
                     </div>
                 </div>

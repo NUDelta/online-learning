@@ -50,7 +50,29 @@
 	    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 	    <script src="js/source.js"></script>
 	    <script type="text/javascript">
+			function drawVerticalLine(event){
+				var c = document.getElementById("vertical_canvas");
+				var x = event.clientX;
+				var y = event.clientY;
+				//x -= c.offsetLeft;
+				//y -= c.offsetTop;
+
+				x = x - $("canvas").offset().left;
+
+				console.log("x is at: " + x + " and y is at: " + y);
+
+				var ctx = c.getContext("2d");
+				ctx.moveTo(x,0);
+				ctx.lineTo(x,550);
+				ctx.stroke();
+
+				current = parseInt($("#count").html());
+				$("#count").html(current+1);
+
+				linesArray.push(x);
+			}
 	      $(document).ready(function(){
+	      	linesArray = [];
 	        var canvas = document.getElementById("vertical_canvas");
 	        canvas.addEventListener("mousedown", drawVerticalLine, false);
 
@@ -58,14 +80,14 @@
 	          e.preventDefault();
 	          var context = canvas.getContext('2d');
 	          context.beginPath();
-	          $("#count").html(0);
 	          context.clearRect(0, 0, canvas.width, canvas.height);
+	          linesArray = [];
 	        });
 
 	        $("#next").on("click", function(e){
 	          e.preventDefault();
 	          localStorage["user_lines"] = JSON.stringify(linesArray);
-	          window.location.replace("vertical_lines_feedback.html");
+	          //window.location.replace("vertical_lines_feedback.html");
 
 	        });
 	          
