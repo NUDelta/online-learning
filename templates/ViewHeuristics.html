@@ -13,13 +13,46 @@
             <!-- Include all compiled plugins (below), or include individual files as needed -->
             <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
             <script src="js/source.js"></script>
+            <script src="js/heatmap.js"></script>
             <script type="text/javascript">
+                $(document).ready(function(){
 
+                });
             </script>
         </head>
         <body>
+            <h2 style="margin: 20px">Data Dashboard</h2>
             <div style="margin: 20px;" class="row">
-                <div class="col-lg-6 col-md-6">
+                <div class="col-lg-8 col-md-8">
+                    <div id="{{ imageClass }}" class="grayedOut">
+
+                    </div>
+                </div>
+                <div class="col-md-4 col-lg-4">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Heatmap Legend</h3>
+                        </div>
+                        <button id="loadMap" style="margin: 10px" class="btn btn-lg btn-primary">Load Heatmap</button>
+                        <div class="panel-body">
+                            <h5>On the graph on the left, click 'Load Map' to begin usage</h5>
+                            <h5>Problems are weighted according to the seriousness of the problem</h5>
+                            <p>Cosmetic problem weight: 1</p>
+                            <p>Minor problem weight: 1.5</p>
+                            <p>Major Problem weight: 2</p>
+                            <p>Catastrophic Problem weight: 3</p>
+
+                            <label>Highlight different type of problems:</label>
+                            <select id="priority" class="form-control">
+                                <option value="cosmetic">Cosmetic - need not be fixed</option>
+                                <option value="minor">Minor - needs fixing but low priority</option>
+                                <option value="major">Major - needs fixing and high priority</option>
+                                <option value="catastrophic">Catastrophic - imperative to fix</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6" style="margin-top: 40px">
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <h3 class="panel-title">Written Reports ({{reports.length}} reports collected) </h3>
@@ -35,6 +68,8 @@
                                         <p>{{this.problem}}</p>
                                         <label>Proposed Solution</label>
                                         <p>{{this.fix}}</p>
+                                        <label>Coordinates</label>
+                                        <p>{{this.coordinates}}</p>
 
                                     </div>
                                 </div>
@@ -43,7 +78,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-4">
+                <div class="col-lg-4 col-md-4" style="margin-top: 40px">
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <h3 class="panel-title">Strong Lines vs. Weak Lines</h3>
@@ -60,7 +95,7 @@
                             {{/if}}
                             <ul class="list-group">
                             {{#each priorities}}
-                                <li class="list-group-item list-group-item-success">{{this[0]}}</li>
+                                <li class="list-group-item">{{this[0]}}</li>
 
                             {{/each}}
                             </ul>

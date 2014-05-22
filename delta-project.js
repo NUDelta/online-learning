@@ -8,6 +8,18 @@ templateOrder = {
   'seventh': 'choose-1'
 }
 
+heatMapWeight = {
+  "cosmetic": 50,
+  "minor": 75,
+  "major": 100,
+  "catastrophic": 125
+};
+
+imageMap = {
+  'test1': 'heatmapArea1',
+  'test2': 'heatmapArea2'
+}
+
 LineDifferentials = new Meteor.Collection("lineDifferentials");
 StrongLines = new Meteor.Collection("strongLines");
 WeakLines = new Meteor.Collection("weakLines");
@@ -97,9 +109,10 @@ if(Meteor.isClient){
       template: 'ViewHeuristics',
       data: function(){
         console.log(this.params._test);
+
         differentials = LineDifferentials.find({image: this.params._test}).fetch();
         reports = WrittenHeuristics.find({image: this.params._test}, {sort: {date_created: -1}}).fetch();
-        return {reports: reports};
+        return {reports: reports, imageClass: imageMap[this.params._test]};
       }
     });
   });
@@ -231,8 +244,18 @@ if(Meteor.isClient){
 
   Template.StrongLineHeuristic1.events({
     'click #submit': function() {
-      weakLines = JSON.parse($('#weakArray').val());
-      strongLines = JSON.parse($('#strongArray').val());
+      try {
+        weakLines = JSON.parse($('#weakArray').val());
+      }
+      catch(err) {
+        weakLines = [];
+      }
+      try {
+        strongLines = JSON.parse($('#strongArray').val());
+      }
+      catch(err) {
+        strongLines = [];
+      }
       
       //differentials = strong - weak
       userDifferential = strongLines.length - weakLines.length;
@@ -262,24 +285,34 @@ if(Meteor.isClient){
       submittedPriority = $("#priority").val();
       submittedProblem = $("#problem").val();
       submittedFix = $("#fix").val();
+      try {
+        submittedCoordinates = JSON.parse($("#coordinates").val());
+      } catch(err){
+        alert("Select the area on the image where the problem is located!");
+      }
+      var c = document.getElementById("test1");
+      var ctx = c.getContext("2d");
+      ctx.beginPath();
+      ctx.clearRect(0,0,c.width, c.height);   
 
-      WrittenHeuristics.insert({image: 'test1', priority: submittedPriority, problem: submittedProblem, fix: submittedFix, date_created: Date.now() });
+      WrittenHeuristics.insert({image: 'test1', priority: submittedPriority, problem: submittedProblem, fix: submittedFix, date_created: Date.now(), coordinates: submittedCoordinates });
       $("#priority").val("");
       $("#problem").val("");
       $("#fix").val("");
+      $("#coordinates").val("");
       $("#heuristic").fadeOut(function(){
-        $("#werd").fadeIn(function(){
-          setTimeout(function(){
-            $("#werd").fadeOut(function(){
-              $("#heuristic").fadeIn();
-            });
-          }, 1500);
-        });
+        $("#more").fadeIn();
       });
     },
 
     'click #exit': function(){
       Router.go('/view-heuristics/test1');
+    },
+
+    'click #submitMore': function(){
+      $("#more").fadeOut(function(){
+        $("#heuristic").fadeIn('slow');
+      });
     }
   });
 
@@ -288,24 +321,84 @@ if(Meteor.isClient){
       submittedPriority = $("#priority").val();
       submittedProblem = $("#problem").val();
       submittedFix = $("#fix").val();
+      try {
+        submittedCoordinates = JSON.parse($("#coordinates").val());
+      } catch(err){
+        alert("Select the area on the image where the problem is located!");
+      }
 
-      WrittenHeuristics.insert({image: 'test2', priority: submittedPriority, problem: submittedProblem, fix: submittedFix});
+      var c = document.getElementById("test2");
+      var ctx = c.getContext("2d");
+      ctx.beginPath();
+      ctx.clearRect(0,0,c.width, c.height);  
+
+      WrittenHeuristics.insert({image: 'test2', priority: submittedPriority, problem: submittedProblem, fix: submittedFix, date_created: Date.now(), coordinates: submittedCoordinates});
       $("#priority").val("");
       $("#problem").val("");
       $("#fix").val("");
+      $("#coordinates").val("");
       $("#heuristic").fadeOut(function(){
-        $("#werd").fadeIn(function(){
-          setTimeout(function(){
-            $("#werd").fadeOut(function(){
-              $("#heuristic").fadeIn();
-            });
-          }, 1500);
-        });
+        $("#more").fadeIn('slow');
       });
     },
 
     'click #exit': function(){
       Router.go('/view-heuristics/test2');
+    },
+
+    'click #submitMore': function(){
+      $("#more").fadeOut(function(){
+        $("#heuristic").fadeIn('slow');
+      });
+    }
+  });
+
+
+  Template.ViewHeuristics.events({
+    'click #loadMap': function() {
+      image = Router.current().path.substring(17);
+      $("#loadMap").hide();
+      $("#" + imageMap[image]).removeClass("grayedOut");
+      reports = WrittenHeuristics.find({image: image}, {sort: {date_created: -1}}).fetch();
+
+      heatMapData = {
+        max: 200,
+        data: []
+      };
+
+      for(var i=0; i < reports.length; i++){
+        newObject = {x: reports[i].coordinates[0], y: reports[i].coordinates[1], count: heatMapWeight[reports[i].priority]};
+        heatMapData.data.push(newObject);
+      }
+
+      config = {
+        element: document.getElementById(imageMap[image]),
+        radius: 30,
+        opacity: 50,
+        gradient: { 0.45: "rgb(0,0,255)", 0.55: "rgb(0,255,255)", 0.65: "rgb(0,255,0)", 0.95: "yellow", 1.0: "rgb(255,0,0)" }
+      };
+      //creates and initializes the heatmap
+      heatmap = h337.create(config);
+      heatmap.store.setDataSet(heatMapData);
+    },
+    'change #priority': function() {
+      priority = $("#priority").val();
+      image = Router.current().path.substring(17);
+      reports = WrittenHeuristics.find({image: image, priority: priority}, {sort: {date_created: -1}}).fetch();
+
+      heatMapData = {
+        max: 200,
+        data: []
+      };
+
+      for(var i=0; i < reports.length; i++){
+        newObject = {x: reports[i].coordinates[0], y: reports[i].coordinates[1], count: heatMapWeight[reports[i].priority]};
+        heatMapData.data.push(newObject);
+      }
+
+      heatmap.store.setDataSet({data:[]});
+      heatmap.store.setDataSet(heatMapData);
+
     }
   });
 
@@ -320,9 +413,19 @@ if(Meteor.isClient){
     list[2][1] = major.length;
     catastrophic = WrittenHeuristics.find({image: image, priority: 'catastrophic'}).fetch();
     list[3][1] = catastrophic.length;
-    console.log(list);
 
-    return list;
+    warningClasses = {
+      0: "list-group-item-info",
+      1: "list-group-item-info",
+      2: "list-group-item-warning",
+      3: "list-group-item-danger"
+    };
+
+    newArray = ["","","",""];
+    for(var i=0; i <list.length; i++){
+      newArray[i] = list[i][0] + list[i][1];
+    }
+    return newArray;
   }
 
   Template.ViewHeuristics.prioritiesList = function(){
@@ -363,7 +466,6 @@ if(Meteor.isClient){
     }
   }
 
-  
   Template.ViewHeuristics.totalUsers = function(array){
     return array.length;
   } 

@@ -177,6 +177,26 @@
 	border-radius: 10px;
 }
 
+#heatmapArea1 {
+	position:relative;
+	float:left;
+	width:800px;
+	height:600px;
+	background-image:url(../img/testing/tested1.png);
+	border:1px solid #ddd;
+	border-radius: 5px;
+}
+
+#heatmapArea2 {
+	position:relative;
+	float:left;
+	width:800px;
+	height:600px;
+	background-image:url(../img/testing/tested2.png);
+	border:1px solid #ddd;
+	border-radius: 5px;
+}
+
 .highlighted3-part2 {
 	height: 320px;
 	width: 745px;
@@ -186,6 +206,10 @@
 	display: none;
 	border-radius: 10px;
 	border: 1px solid rgb(66,139,202);
+}
+
+.grayedOut { 
+	opacity: .5;
 }
 
 .panel-heading {
