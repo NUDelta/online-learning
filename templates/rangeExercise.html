@@ -19,31 +19,22 @@
 	  </head>
 	  <body>
 	    <div class="row">
-	      <div class="col-lg-6 col-md-6 col-lg-offset-4 col-md-offset-4">
-	        <h2>Adjust where the button best aligns on this form</h2>
+	      <div class="col-lg-3 col-md-3 col-lg-offset-1 col-md-offset-1">
+	        <h3>Adjust the slider to where you think the button best aligns with the form.</h3>
+	        <button id="showMore1" class="btn btn-block btn-primary" style="margin-top: 25px;">Next</button>
+	        <div style="display: none;" id="moreInfo1">
+	        	<hr />
+	        	<h5>Aligning it to the left allows for the user's eyes to not have to scan the page as the submit button then aligns with the rest of the form.</h5>
+	        </div>
+	        <button id="next" class="btn btn-block btn-primary" style="margin-top: 25px; display: none;">Next</button>
 	      </div>
-	    </div>
-	    <div class="row">
-	      <div class="editable-form col-lg-6 col-md-6 col-lg-offset-4 col-md-offset-4">
+	      <div class="editable-form col-lg-6 col-md-6">
 	        <img id="image1" src="img/ebay_form_half.png" />
 	        <img style="margin-bottom: 20px; margin-left: 300px" id="button-image" src="img/ebay_button.png" />
-	      </div>
-	    </div>
-	    
-	    <div style="margin: 50px" class="row">
-	      <div class="col-lg-6 col-md-6 col-lg-offset-4 col-md-offset-4">
 	        <input type="range">
 	      </div>
 	    </div>
 
-	    <div id="submit" style="margin: 50px;" class="row">
-	      <div class="col-lg-4 col-md-4 col-lg-offset-5 col-md-offset-5">
-	        <button id="next" class="btn btn-block btn-primary">
-	          Submit
-	        </button>
-
-	      </div>
-	    </div>
 
 	    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 	    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
@@ -56,7 +47,7 @@
 
 	        var slider = $("input[type='range']");
 	        $(slider).change(function(){
-	          updateButton($(slider).val());
+				$("#button-image").css("margin-left", $(slider).val()*6);
 	        });
 	      });
 

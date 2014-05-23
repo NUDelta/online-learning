@@ -49,18 +49,18 @@
                     <h3>Written Heuristics - Alignment</h3>
                     <h5>Do you notice a problem with vertical alignment? Describe them below (one at a time!):</h5>
                     <div id="heuristic">
-                        <label>Priority:</label>
+                        <label>Task 1: Identify the problem:</label>
+                        <textarea id="problem" class="form-control" rows="5" placeholder="describe the problem with vertical alignment here, be as specific as possible - how does this problem affect the user's experience?"></textarea>
+                        <label>Task 2: How would you fix it?</label>
+                        <textarea id="fix" class="form-control" rows="5" placeholder="what can the designer do to fix this? line it up with another element? move it to the left or right? be specific"></textarea>
+                        <label>Task 3: Finally, click on the image to the right where you think the problem is located (only one box may be drawn at a time)</label>
+                        <label>Task 4: How serious is the problem?</label>
                         <select id="priority" class="form-control">
                           <option value="cosmetic">Cosmetic - need not be fixed</option>
                           <option value="minor">Minor - needs fixing but low priority</option>
                           <option value="major">Major - needs fixing and high priority</option>
                           <option value="catastrophic">Catastrophic - imperative to fix</option>
                         </select>
-                        <label>Problem:</label>
-                        <textarea id="problem" class="form-control" rows="5" placeholder="describe the problem with vertical alignment here, be as specific as possible - how does this problem affect the user's experience?"></textarea>
-                        <label>Suggested Fix:</label>
-                        <textarea id="fix" class="form-control" rows="5" placeholder="what can the designer do to fix this? line it up with another element? move it to the left or right? be specific"></textarea>
-                        <label>Finally, click on the image to the right where you think the problem is located (only one box may be drawn at a time)</label>
                         <button id="submit" style="margin-top: 20px;" class="btn btn-primary btn-block">Submit</button>
                         <!--<button id="exit" style="margin-top: 20px" class="btn btn-danger btn-block">Exit</button>-->
                     </div>

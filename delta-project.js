@@ -1,11 +1,16 @@
 templateOrder = {
   'first':'compare1',
   'second': 'compareFeedback',
-  'third': 'teachingModule1',
-  'fourth': 'teachingModule2',
-  'fifth': 'verticalLines',
-  'sixth': 'rangeExercise',
-  'seventh': 'choose-1'
+  'third': 'teachingModule2',
+  'fourth': 'verticalLines',
+  'fifth': 'verticalLinesFeedback',
+  'sixth': 'teachingModule1',
+  'seventh': 'rangeExercise',
+  'eighth': 'choose1',
+  'ninth': 'choose1Feedback',
+  'tenth': 'teachingModule3',
+  'eleventh': 'teachingModule4',
+  'twelfth': 'visualRank'
 }
 
 heatMapWeight = {
@@ -20,10 +25,28 @@ imageMap = {
   'test2': 'heatmapArea2'
 }
 
+imageIdentifier = {
+  'abc': 'testing1',
+  'def': 'testing2',
+  'ghi': 'testing3',
+  'jkl': 'testing4',
+  'mno': 'testing5'
+}
+
+userGroupIdentifier = {
+  'aXcy2': 'scaffolding',
+  'gMih5': 'no-scaffolding'
+}
+
+ChooseOne = new Meteor.Collection("chooseOne");
+VerticalLineFeedback = new Meteor.Collection("verticalLineFeedback");
 LineDifferentials = new Meteor.Collection("lineDifferentials");
 StrongLines = new Meteor.Collection("strongLines");
 WeakLines = new Meteor.Collection("weakLines");
 WrittenHeuristics = new Meteor.Collection("writtenHeuristics");
+HierarchyElements = new Meteor.Collection("hierarchyElements");
+HierarchyHeuristics = new Meteor.Collection("hierarchyHeuristics");
+
 
 
 if(Meteor.isClient){
@@ -78,6 +101,42 @@ if(Meteor.isClient){
       data: {
         current: 7
       }
+    }),
+    this.route('eighth-block', {
+      path: '/8',
+      template: templateOrder.eighth,
+      data: {
+        current: 8
+      }
+    }),
+    this.route('ninth-block', {
+      path: '/9',
+      template: templateOrder.ninth,
+      data: function(){
+        reason = ChooseOne.find().fetch();
+        return {reasons: reason};
+      }
+    }),
+    this.route('tenth-block', {
+      path: '/10',
+      template: templateOrder.tenth,
+      data: {
+        current: 10
+      }
+    }),
+    this.route('eleventh-block', {
+      path: '/11',
+      template: templateOrder.eleventh,
+      data: {
+        current: 11
+      }
+    }),
+    this.route('twelfth-block', {
+      path: '/12',
+      template: templateOrder.twelfth,
+      data: {
+        current: 12
+      }
     });
 
     this.route('BeginHeuristics', {
@@ -108,12 +167,32 @@ if(Meteor.isClient){
       path: '/view-heuristics/:_test',
       template: 'ViewHeuristics',
       data: function(){
-        console.log(this.params._test);
-
         differentials = LineDifferentials.find({image: this.params._test}).fetch();
         reports = WrittenHeuristics.find({image: this.params._test}, {sort: {date_created: -1}}).fetch();
         return {reports: reports, imageClass: imageMap[this.params._test]};
       }
+    });
+
+    this.route('HierarchyHeuristics', {
+      path: '/hierarchy-heuristic/:_image/:_study_group',
+      template: 'HierarchyHeuristics',
+      data: function(){
+        items = HierarchyElements.find({imageName: imageIdentifier[this.params._image]}).fetch();
+        return {items: items, image: imageIdentifier[this.params._image], user_group: userGroupIdentifier[this.params._study_group]};
+      }
+    });
+
+    this.route('BeginTesting', {
+      path: '/begin-testing/:_study_group',
+      template: 'beginTesting',
+      data: function(){
+        return {group: this.params._study_group};
+      }
+    });
+
+    this.route('Intro', {
+      path: '/index',
+      template: 'intro'
     });
   });
 
@@ -122,6 +201,11 @@ if(Meteor.isClient){
     Template event listeners
 
   */  
+  Template.intro.events({
+    'click #next': function() {
+      Router.go('/1');
+    }
+  })
 
   Template.compareFeedback.events({
     'click #next': function() {
@@ -199,6 +283,18 @@ if(Meteor.isClient){
       newPath = newPath + 1;
 
       Router.go('/' + newPath);
+    },
+    'click #showMore1': function() {
+      $("#showMore1").fadeOut('slow', function(){
+        $("#moreInfo1").fadeIn('slow');
+        $("#showMore2").fadeIn('slow');
+      });
+    },
+    'click #showMore2': function() {
+      $("#showMore2").fadeOut('slow', function(){
+        $("#moreInfo2").fadeIn('slow');
+        $("#next").fadeIn('slow');
+      });
     }
   });
   Template.teachingModule2.events({
@@ -208,17 +304,80 @@ if(Meteor.isClient){
       newPath = newPath + 1;
 
       Router.go('/' + newPath);
+    },
+    'click #showMore1': function(){
+      $("#showMore1").fadeOut('slow', function(){
+        $("#moreInfo1").fadeIn('slow');
+      });
+    },
+    'click #misalign': function(){
+      if($("#misalign").html() == "Misalign Text"){
+        $(".text-align-example").css("text-align", "center");
+        $("#misalign").html("Realign Text");
+        $("#moreInfo2").fadeIn('slow');
+        $("#next").fadeIn('slow');
+      } else {
+        $(".text-align-example").css("text-align", "left");
+        $("#misalign").html("Misalign Text");
+      }
     }
   });
   Template.verticalLines.events({
     // move to the next page
     'click #next': function() {
+      try{
+        lines = JSON.parse($("#lineArray").val());
+      }catch(err){
+        lines = [];
+      }
+      
+      for(var i=0; i < lines.length; i++){
+        VerticalLineFeedback.insert({x_coordinate: lines[i]});
+      }
+
       newPath = parseInt(Router.current().path.substring(1));
       newPath = newPath + 1;
 
       Router.go('/' + newPath);
     }
   });
+
+  Template.verticalLinesFeedback.events({
+    'click #next': function(){
+      newPath = parseInt(Router.current().path.substring(1));
+      newPath = newPath + 1;
+
+      Router.go('/' + newPath);
+    }
+  });
+
+  Template.verticalLinesFeedback.totalLines = function(){
+    return VerticalLineFeedback.find().fetch().length;
+  }
+
+  Template.verticalLinesFeedback.invokeAfterLoad = function() {
+    Meteor.defer(function(){
+      setTimeout(100, function(){
+        console.log("wait");
+      });
+      lines = VerticalLineFeedback.find().fetch();
+      setTimeout(100, function(){
+        console.log("wait");
+      });
+      var c = document.getElementById("vertical_canvas");
+      var ctx = c.getContext("2d");
+      console.log(lines);
+
+      for(var i=0; i < lines.length; i++){
+        ctx.moveTo(lines[i].x_coordinate,0);
+        ctx.lineTo(lines[i].x_coordinate,550);
+        ctx.lineWidth = 1;
+        ctx.stroke();
+        console.log(lines[i].x_coordinate);
+      }
+    });
+  }
+
   Template.rangeExercise.events({
     // move to the next page
     'click #next': function() {
@@ -226,6 +385,12 @@ if(Meteor.isClient){
       newPath = newPath + 1;
 
       Router.go('/' + newPath);
+    },
+    'click #showMore1': function() {
+      $("#showMore1").fadeOut('slow', function(){
+        $("#moreInfo1").fadeIn('slow');
+        $("#next").fadeIn('slow');
+      });
     }
   });
   Template.compare1.events({
@@ -235,6 +400,84 @@ if(Meteor.isClient){
       newPath = newPath + 1;
 
       Router.go('/' + newPath);
+    }
+  });
+  Template.choose1.events({
+    'click #next': function() {
+      ChooseOne.insert({chosen: $("#chooseForm").val(), reason: $("#reason").val()});
+      
+      newPath = parseInt(Router.current().path.substring(1));
+      newPath = newPath + 1;
+      Router.go('/' + newPath);
+    } 
+  });
+
+  Template.teachingModule3.events({
+    'click #next': function() {
+      newPath = parseInt(Router.current().path.substring(1));
+      newPath = newPath + 1;
+      Router.go('/' + newPath);
+    },
+    'click #showMore1': function() {
+      $("#showMore1").fadeOut('slow', function(){
+        $("#moreInfo1").fadeIn('slow');
+        $("#next").fadeIn('slow');
+      });
+    }
+  });
+
+  Template.choose1Feedback.events({
+    'click #next': function() {
+      newPath = parseInt(Router.current().path.substring(1));
+      newPath = newPath + 1;
+      Router.go('/' + newPath);
+    }
+  });
+
+  Template.choose1Feedback.targetProportion = function(){
+    reasons = ChooseOne.find().fetch();
+    numberOfTarget = 0;
+    for(var i=0; i < reasons.length; i++){
+      if(reasons[i].chosen == "target"){
+        numberOfTarget = numberOfTarget + 1;
+      }
+    }
+    return ((numberOfTarget/reasons.length) * 100).toFixed(2) + "%";
+  }
+
+  Template.choose1Feedback.michaelsProportion = function(){
+    reasons = ChooseOne.find().fetch();
+    numberOfTarget = 0;
+    for(var i=0; i < reasons.length; i++){
+      if(reasons[i].chosen == "michaels"){
+        numberOfTarget = numberOfTarget + 1;
+      }
+    }
+    return ((numberOfTarget/reasons.length) * 100).toFixed(2) + "%";
+  }
+
+  Template.teachingModule4.events({
+    'click #next': function(){
+      newPath = parseInt(Router.current().path.substring(1));
+      newPath = newPath + 1;
+      Router.go('/' + newPath);
+    },
+    'click #showMore1': function(){
+      $("#showMore1").fadeOut('slow', function(){
+        $("#moreInfo1").fadeIn('slow');
+        $("#next").fadeIn('slow');
+      });
+    }
+  });
+
+  Template.visualRank.events({
+    'click #next': function(){
+      random = Math.floor(Math.random()*2);
+      if(random == 0){
+        Router.go('/begin-testing/' + 'gMih5');
+      } else {
+        Router.go('/begin-testing/' + 'aXcy2');
+      }
     }
   });
 
@@ -262,7 +505,6 @@ if(Meteor.isClient){
       LineDifferentials.insert({image: 'test1', differential: userDifferential});
       
       Router.go('/written-heuristics/1');
-
     }
   });
 
@@ -306,7 +548,12 @@ if(Meteor.isClient){
     },
 
     'click #exit': function(){
-      Router.go('/view-heuristics/test1');
+      random = Math.floor(Math.random()*2);
+      if(random == 0){
+        Router.go('/begin-testing/' + 'gMih5');
+      } else {
+        Router.go('/begin-testing/' + 'aXcy2');
+      }
     },
 
     'click #submitMore': function(){
@@ -343,7 +590,12 @@ if(Meteor.isClient){
     },
 
     'click #exit': function(){
-      Router.go('/view-heuristics/test2');
+      random = Math.floor(Math.random()*2);
+      if(random == 0){
+        Router.go('/begin-testing/' + 'gMih5');
+      } else {
+        Router.go('/begin-testing/' + 'aXcy2');
+      }
     },
 
     'click #submitMore': function(){
@@ -352,7 +604,6 @@ if(Meteor.isClient){
       });
     }
   });
-
 
   Template.ViewHeuristics.events({
     'click #loadMap': function() {
@@ -414,13 +665,6 @@ if(Meteor.isClient){
     catastrophic = WrittenHeuristics.find({image: image, priority: 'catastrophic'}).fetch();
     list[3][1] = catastrophic.length;
 
-    warningClasses = {
-      0: "list-group-item-info",
-      1: "list-group-item-info",
-      2: "list-group-item-warning",
-      3: "list-group-item-danger"
-    };
-
     newArray = ["","","",""];
     for(var i=0; i <list.length; i++){
       newArray[i] = list[i][0] + list[i][1];
@@ -436,12 +680,10 @@ if(Meteor.isClient){
   Template.ViewHeuristics.averageDifferentials = function(){
     image = Router.current().path.substring(17);
     differentials = LineDifferentials.find({image: image}).fetch();
-    console.log("Differential array: " + differentials);
     var total = 0;
     $.each(differentials,function() {
         total += this.differential;
     });
-    console.log(total);
 
     var avg = total / differentials.length;
     return avg;
@@ -455,10 +697,8 @@ if(Meteor.isClient){
     $.each(differentials,function() {
         total += this.differential;
     });
-    console.log(total);
 
     var avg = total / differentials.length;
-    
     if (avg > 0){
       return true;
     } else {
@@ -469,7 +709,29 @@ if(Meteor.isClient){
   Template.ViewHeuristics.totalUsers = function(array){
     return array.length;
   } 
+
+  Template.HierarchyHeuristics.events({
+    'click #submit': function() {
+      image = imageIdentifier[Router.current().path.substring(21,24)];
+      user_group = userGroupIdentifier[Router.current().path.substring(25)];
+
+      for(var i=0; i < $("li").length; i++){
+        elementName = $("ul li:nth-child(" + (i+1) + ")").attr("value");
+        value = $("ul li:nth-child(" + (i+1) + ") select").val();
+
+        HierarchyHeuristics.insert({imageName: image, userGroup: user_group, element: elementName, score: value});
+      }
+
+      if(Router.current().path.substring(21,24) == 'abc'){
+        Router.go('/written-heuristics/1');
+      } else if(Router.current().path.substring(21,24) == 'def'){
+        Router.go('/written-heuristics/2');
+      }
+    }
+  });
 }
+
+
 
 if (Meteor.isServer) {
   Meteor.startup(function () {

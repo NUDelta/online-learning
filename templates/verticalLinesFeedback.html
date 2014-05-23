@@ -1,10 +1,10 @@
-<template name="verticalLines">
+<template name="verticalLinesFeedback">
 	<html lang="en">
 	  <head>
 	    <meta charset="utf-8">
 	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
 	    <meta name="viewport" content="width=device-width, initial-scale=1">
-	    <title>Identify the Vertical Lines</title>
+	    <title>Vertical Lines Feedback</title>
 
 	    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
 	    <link rel="stylesheet" href="css/style.css">
@@ -14,11 +14,10 @@
 
 	    <div style="margin-top: 50px;" class="row">
 			<div class="col-lg-3 col-md-3 col-lg-offset-1 col-md-offset-1">
-				<h3>Identify the strong vertical lines in this design</h3>
-				<h4>Click anywhere on the design on the right to begin drawing lines</h4>
-				<h4>Strong vertical lines, as discussed before, are vertical lines where multiple objects in the design align themselves to.</h4>
-				<h4 style="margin-top: 25px;">You've currently identified <span id="count">0</span> vertical lines</h4>
-				<button id="reset" class="btn btn-default btn-block">Reset</button>
+				<h3>Here's what other vertical lines people have noticed:</h3>
+				<h4>Look for the concentrated areas of lines - here's where the strong vertical lines for this design lie.</h4>
+				<h4 style="margin-top: 25px;">There are currently {{ totalLines }} total vertical lines aggregated</h4>
+	
 				<button style="margin-top: 50px;" id="next" class="btn btn-block btn-primary">Next</button>
 			</div>	
 			<div class="col-lg-8 col-md-8">
@@ -26,7 +25,7 @@
 			</div>
         	<input type="hidden" id="lineArray" value="" />
 	    </div>
-
+	    {{ invokeAfterLoad }}
 
 	    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 	    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>

@@ -1,10 +1,10 @@
-<template name="choose1">
+<template name="choose1Feedback">
 	<html lang="en">
 	  <head>
 	    <meta charset="utf-8">
 	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
 	    <meta name="viewport" content="width=device-width, initial-scale=1">
-	    <title>Choose One</title>
+	    <title>Choose One Feedback</title>
 
 	    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
 	    <link rel="stylesheet" href="css/style.css">
@@ -19,15 +19,20 @@
 	  <body>
 	    <div class="row">
 	    	<div style="margin-top: 25px" class="col-lg-3 col-md-3 col-lg-offset-1 col-md-offset-1">
-	    		<h4>Which form do you think best displays principles of alignment?</h4>
+	    		<h4>Here's what others have said:</h4>
 
-	    		<select id="chooseForm" class="form-control">
-	    			<option value="target">First Form</option>
-	    			<option value="michaels">Second Form</option>
-	    		</select>
-	    		<label style="margin-top: 20px">Why? Share a reason why you chose this form over the other!</label>
-	    		<textarea class="form-control" id="reason" rows="4" placeholder="reasoning.."></textarea>
-	    		<button style="margin-top: 25px" id="next" class="btn btn-block btn-primary">Submit</button>
+				<h5><b>{{ targetProportion }}</b> of users chose the Target example</h5>
+				<h5><b>{{ michaelsProportion }}</b> of users chose the Michael's example</h5>
+
+				<h5 style="margin-top: 25px;">Reasons:</h5>
+				<div id="reasons" style="height: 300px; overflow: scroll;">
+					<ul class="list-group">
+					{{#each reasons}}
+						<li class="list-group-item"><b>{{ this.chosen }}</b>: {{ this.reason }}</li>
+					{{/each}}
+					</ul>
+				</div>
+				<button id="next" class="btn btn-primary btn-block" style="margin-top: 25px;">Next</button>
 	    	</div>
 			<div class="col-lg-4 col-md-4">
 				<img id="image1" class="large-image"  src="img/target_form.png" />

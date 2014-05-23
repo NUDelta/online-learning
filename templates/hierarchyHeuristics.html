@@ -1,0 +1,54 @@
+<template name="HierarchyHeuristics">
+    <html>
+        <head>
+            <meta charset="utf-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <title>Hierarchy Testing</title>
+
+            <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+         
+
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+            <!-- Include all compiled plugins (below), or include individual files as needed -->
+            <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+            <script src="js/source.js"></script>
+            <script type="text/javascript">
+
+            </script>
+        </head>
+        <body>
+            <div style="margin: 20px;" class="row">
+                <div class="col-lg-3 col-md-3">
+                    <h3>Visual Hierarchy</h3>
+                    <h5>Assign values (1 being the lowest, and 10 being the highest) according to the actual visual importance as you see it in the live design.</h5>
+                    <ul class="list-group">
+                    {{#each items}}
+                        <li value="{{ this.element }}" class="list-group-item">
+                            <span class="element-name">{{this.element}}</span>
+                            <select style="width: 50px; margin-top: -6px" class="form-control pull-right">
+                              <option value="1">1</option>
+                              <option value="2">2</option>
+                              <option value="3">3</option>
+                              <option value="4">4</option>
+                              <option value="5">5</option>
+                              <option value="6">6</option>
+                              <option value="7">7</option>
+                              <option value="8">8</option>
+                              <option value="9">9</option>
+                              <option value="10">10</option>
+                            </select>
+                        </li>
+
+                    {{/each}}
+                    </ul>
+                    <button id="submit" class='btn-primary btn btn-block'>Submit</button>
+                </div>
+                <div class="image col-lg-8 col-md-8">
+                    <canvas id="test2" class="{{ image }}" width="810" height="550"></canvas>
+                </div>
+            </div>
+            
+        </body>
+    </html>
+</template>
