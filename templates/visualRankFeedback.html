@@ -1,4 +1,4 @@
-<template name="visualRank">
+<template name="visualRankFeedback">
     <html>
         <head>
             <meta charset="utf-8">
@@ -15,28 +15,33 @@
             <script src="js/source.js"></script>
             <script type="text/javascript">
               $(document).ready(function(){
-                $("ul").sortable();
+
+
               });
+
+              //
             </script>
         </head>
         <body>
+
             <div style="margin: 20px;" class="row">
                 <div class="col-lg-3 col-md-3">
                     <h3>Visual Ranking</h3>
-                    <h5>Please rank the following elements by the 'visual weight' according to the website at the right. Drag and drop to reaarange the order, with elements with the most weight at the top and vice versa.</h5>
+                    <h5>Here are the average results of what other learners thought were the most important elements visually, with smaller numbers indicating MORE visual importance</h5>
 
                     <ul class="list-group">
-                        <li id="communityBulletin" class="list-group-items"><h5>Community Bulletin</h5></li>
-                        <li id="favoriteTags" class="list-group-items"><h5>Favorite Tags</h5></li>
-                        <li id="askAQuestion" class="list-group-items"><h5>Ask a Question</h5></li>
-                        <li id="personalProfile" class="list-group-items"><h5>Personal Profile</h5></li>
-                        <li id="help" class="list-group-items"><h5>Help</h5></li>
-                        <li id="stackExchange" class="list-group-items"><h5>StackExchange</h5></li>
-                        <li id="questions" class="list-group-items"><h5>Questions</h5></li>
-                        <li id="hotNetworkQuestions" class="list-group-items"><h5>Hot Network Questions</h5></li>
+                    {{#each rankings}}
+                        <li class="list-group-items" id="{{ this.id }}">{{ this.title }}</li>
+                    {{/each}}
                     </ul>
+                    {{ invokeAfterLoad }}
+                    <button id="showMore1" class="btn btn-primary btn-block" style="margin-top: 10px;">Next</button>
+                    <div id="moreInfo1" style="display: none;">
+                        <hr />
+                        <h5>Think about what led your fellow learners to come to these conclusions: what sort of things (font size, color, shadowing, etc.) affect the <i>visual weight</i> of elements in your design?</h5>
+                    </div>
 
-                    <button id="next" class="btn btn-primary btn-block" style="margin-top: 20px">Submit</button>
+                    <button id="next" class="btn btn-primary btn-block" style="margin-top: 20px; display: none;">Next</button>
                 </div>
                 <div class="image col-lg-8 col-md-8">
                     <canvas id="test1" class="stackoverflow" width="900" height="585"></canvas>

@@ -1,0 +1,81 @@
+<template name="WrittenHeuristics">
+    <html>
+        <head>
+            <meta charset="utf-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <title>Written Heuristics Testing</title>
+
+            <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+         
+
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+            <!-- Include all compiled plugins (below), or include individual files as needed -->
+            <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+            <script src="js/source.js"></script>
+            <script type="text/javascript">
+                coordinates = [0,0];
+
+                function drawBox(event){
+                    var c = document.getElementById("test1");
+                    var ctx = c.getContext("2d");
+                    ctx.beginPath();
+                    ctx.clearRect(0,0,c.width, c.height);        
+
+                    var x = event.clientX;
+                    var y = event.clientY;
+
+                    x = x - $("canvas").offset().left;
+                    y = y - $("canvas").offset().top;
+
+                    console.log("x is at: " + x + " and y is at: " + y);
+                    coordinates = [x,y];
+
+                    ctx.rect(x-50,y-50,100,100);
+                    ctx.stroke();
+                    $("#coordinates").val(JSON.stringify(coordinates));
+                }
+
+
+                $(document).ready(function(){
+                    var canvas = document.getElementById("test1");
+                    canvas.addEventListener("mousedown", drawBox, false);
+                });
+            </script>
+        </head>
+        <body>
+            <div style="margin: 20px;" class="row">
+                <div class="col-lg-3 col-md-3">
+                    <h3>Written Heuristics - Alignment</h3>
+                    <h5>Do you notice a problem with vertical alignment? Describe them below (one at a time!):</h5>
+                    <div id="heuristic">
+                        <label>Task 1: Identify the problem:</label>
+                        <textarea id="problem" class="form-control" rows="5" placeholder="describe the problem with vertical alignment here, be as specific as possible - how does this problem affect the user's experience?"></textarea>
+                        <label>Task 2: How would you fix it?</label>
+                        <textarea id="fix" class="form-control" rows="5" placeholder="what can the designer do to fix this? line it up with another element? move it to the left or right? be specific"></textarea>
+                        <label>Task 3: Finally, click on the image to the right where you think the problem is located (only one box may be drawn at a time)</label>
+                        <label>Task 4: How serious is the problem?</label>
+                        <select id="priority" class="form-control">
+                          <option value="cosmetic">Cosmetic - need not be fixed</option>
+                          <option value="minor">Minor - needs fixing but low priority</option>
+                          <option value="major">Major - needs fixing and high priority</option>
+                          <option value="catastrophic">Catastrophic - imperative to fix</option>
+                        </select>
+                        <button id="submit" style="margin-top: 20px;" class="btn btn-primary btn-block">Submit</button>
+                        <!--<button id="exit" style="margin-top: 20px" class="btn btn-danger btn-block">Exit</button>-->
+                    </div>
+                    <div style="display: none;" id="more">
+                        <button id="submitMore" style="margin-top: 20px" class="btn btn-primary btn-block">Submit Another</button>
+                        <button id="exit" style="margin-top: 20px" class="btn btn-danger btn-block">Exit</button>
+                    </div>
+
+                </div>
+                <div class="image col-lg-8 col-md-8">
+                    <canvas id="test1" class="{{ image }}" width="810" height="600"></canvas>
+                </div>
+                <input type="hidden" id="coordinates" value="" />
+            </div>
+            
+        </body>
+    </html>
+</template>

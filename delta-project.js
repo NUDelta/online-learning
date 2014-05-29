@@ -10,7 +10,8 @@ templateOrder = {
   'ninth': 'choose1Feedback',
   'tenth': 'teachingModule3',
   'eleventh': 'teachingModule4',
-  'twelfth': 'visualRank'
+  'twelfth': 'visualRank',
+  'thirteenth': 'visualRankFeedback'
 }
 
 heatMapWeight = {
@@ -38,11 +39,12 @@ userGroupIdentifier = {
   'gMih5': 'no-scaffolding'
 }
 
+visualRankElements = [{id: 'communityBulletin', title: 'Community Bulletin', avg: 0}, {id: 'favoriteTags', title: 'Favorite Tags', avg: 0}, {id: 'askAQuestion', title: 'Ask a Question', avg: 0}, {id: 'personalProfile', title: 'Personal Profile', avg: 0}, {id: 'help', title: 'Help', avg: 0}, { id: 'stackExchange', title: 'Stack Exchange', avg: 0}, {id: 'questions', title: 'Questions', avg: 0}, {id: 'hotNetworkQuestions', title: 'Hot Network Questions', avg: 0}];
+
+
 ChooseOne = new Meteor.Collection("chooseOne");
 VerticalLineFeedback = new Meteor.Collection("verticalLineFeedback");
-LineDifferentials = new Meteor.Collection("lineDifferentials");
-StrongLines = new Meteor.Collection("strongLines");
-WeakLines = new Meteor.Collection("weakLines");
+VisualRankFeedback = new Meteor.Collection("visualRankFeedback");
 WrittenHeuristics = new Meteor.Collection("writtenHeuristics");
 HierarchyElements = new Meteor.Collection("hierarchyElements");
 HierarchyHeuristics = new Meteor.Collection("hierarchyHeuristics");
@@ -137,30 +139,29 @@ if(Meteor.isClient){
       data: {
         current: 12
       }
-    });
+    }),
+    this.route('thirteenth-block', {
+      path: '/13',
+      template: templateOrder.thirteenth,
+      data: function(){
+        for(var i=0; i < visualRankElements.length; i++){
+          currentTotal = 0;
+          numberTotal = 0;
+          VisualRankFeedback.find({elementName: visualRankElements[i].id}).map(function(doc) {
+            currentTotal += doc.value;
+            numberTotal += 1;
+          });
+
+          visualRankElements[i].avg = numberTotal;
+        }
+
+        return {rankings: visualRankElements};
+      }
+    })
 
     this.route('BeginHeuristics', {
       path: '/begin-heuristics',
       template: 'BeginHeuristics'
-    });
-
-    this.route('StrongLinesHeuristics1', {
-      path: '/strong-line-heuristics/1',
-      template: 'StrongLineHeuristic1'
-    });
-
-    this.route('StrongLinesHeuristics2', {
-      path: '/strong-line-heuristics/2',
-      template: 'StrongLineHeuristic2'
-    });
-
-    this.route('WrittenHeuristics1', {
-      path: '/written-heuristics/1',
-      template: 'WrittenHeuristic1'
-    });
-    this.route('WrittenHeuristics2', {
-      path: '/written-heuristics/2',
-      template: 'WrittenHeuristic2'
     });
 
     this.route('ViewHeuristics', {
@@ -179,6 +180,14 @@ if(Meteor.isClient){
       data: function(){
         items = HierarchyElements.find({imageName: imageIdentifier[this.params._image]}).fetch();
         return {items: items, image: imageIdentifier[this.params._image], user_group: userGroupIdentifier[this.params._study_group]};
+      }
+    });
+
+    this.route('WrittenHeuristics', {
+      path: '/written-heuristic/:_image/:_study_group',
+      template: 'WrittenHeuristics',
+      data: function(){
+        return {image: imageIdentifier[this.params._image], user_group: userGroupIdentifier[this.params._study_group]};
       }
     });
 
@@ -472,6 +481,38 @@ if(Meteor.isClient){
 
   Template.visualRank.events({
     'click #next': function(){
+      list = $("li");
+      for(var i=0; i < list.length; i++){
+        currentId = $(list[i]).attr("id");
+        sum = VisualRankFeedback.findOne({elementName: currentId});
+
+        if(typeof sum != "undefined"){
+          
+          avg = sum.avg;
+          count = sum.count;
+          newAverage = ((count*avg) + (i+1))/(count+1);
+          VisualRankFeedback.update({_id: sum._id}, { $set : {avg: newAverage, count: (count+1)}});
+        } else{
+          avg = i+1;
+          count = 1;
+          VisualRankFeedback.insert({elementName: currentId, avg: avg, count: count});
+        }
+      }
+
+      newPath = parseInt(Router.current().path.substring(1));
+      newPath = newPath + 1;
+      Router.go('/' + newPath);
+    }
+  });
+
+  Template.visualRankFeedback.events({
+    'click #showMore1': function(){
+      $("#showMore1").fadeOut('slow', function(){
+        $("#moreInfo1").fadeIn('slow');
+        $("#next").fadeIn('slow');
+      });
+    },
+    'click #next': function(){
       random = Math.floor(Math.random()*2);
       if(random == 0){
         Router.go('/begin-testing/' + 'gMih5');
@@ -480,130 +521,23 @@ if(Meteor.isClient){
       }
     }
   });
+
+  Template.visualRankFeedback.invokeAfterLoad = function() {
+    Meteor.defer(function(){
+      for(var i=0; i < visualRankElements.length; i++){
+        //console.log(visualRankElements[i].avg);
+        id = "#" + visualRankElements[i].id;
+        console.log(visualRankElements[i].id);
+        average = VisualRankFeedback.find({elementName: visualRankElements[i].id}).fetch();
+        console.log(average);
+        $(id).html(visualRankElements[i].title + "<span class='pull-right'><b>" + average[0].avg.toFixed(2) + "</b></span>");
+      }
+    });
+  }
 
   /*Template.BeginHeuristics.events({
 
   });*/
-
-  Template.StrongLineHeuristic1.events({
-    'click #submit': function() {
-      try {
-        weakLines = JSON.parse($('#weakArray').val());
-      }
-      catch(err) {
-        weakLines = [];
-      }
-      try {
-        strongLines = JSON.parse($('#strongArray').val());
-      }
-      catch(err) {
-        strongLines = [];
-      }
-      
-      //differentials = strong - weak
-      userDifferential = strongLines.length - weakLines.length;
-      LineDifferentials.insert({image: 'test1', differential: userDifferential});
-      
-      Router.go('/written-heuristics/1');
-    }
-  });
-
-  Template.StrongLineHeuristic2.events({
-    'click #submit': function() {
-      weakLines = JSON.parse($('#weakArray').val());
-      strongLines = JSON.parse($('#strongArray').val());
-      
-      //differentials = strong - weak
-      userDifferential = strongLines.length - weakLines.length;
-      LineDifferentials.insert({image: 'test2', differential: userDifferential});
-    
-      Router.go('/written-heuristics/2');
-    }
-  });
-
-  // Written Heuristics code
-  Template.WrittenHeuristic1.events({
-    'click #submit': function() {
-      submittedPriority = $("#priority").val();
-      submittedProblem = $("#problem").val();
-      submittedFix = $("#fix").val();
-      try {
-        submittedCoordinates = JSON.parse($("#coordinates").val());
-      } catch(err){
-        alert("Select the area on the image where the problem is located!");
-      }
-      var c = document.getElementById("test1");
-      var ctx = c.getContext("2d");
-      ctx.beginPath();
-      ctx.clearRect(0,0,c.width, c.height);   
-
-      WrittenHeuristics.insert({image: 'test1', priority: submittedPriority, problem: submittedProblem, fix: submittedFix, date_created: Date.now(), coordinates: submittedCoordinates });
-      $("#priority").val("");
-      $("#problem").val("");
-      $("#fix").val("");
-      $("#coordinates").val("");
-      $("#heuristic").fadeOut(function(){
-        $("#more").fadeIn();
-      });
-    },
-
-    'click #exit': function(){
-      random = Math.floor(Math.random()*2);
-      if(random == 0){
-        Router.go('/begin-testing/' + 'gMih5');
-      } else {
-        Router.go('/begin-testing/' + 'aXcy2');
-      }
-    },
-
-    'click #submitMore': function(){
-      $("#more").fadeOut(function(){
-        $("#heuristic").fadeIn('slow');
-      });
-    }
-  });
-
-  Template.WrittenHeuristic2.events({
-    'click #submit': function() {
-      submittedPriority = $("#priority").val();
-      submittedProblem = $("#problem").val();
-      submittedFix = $("#fix").val();
-      try {
-        submittedCoordinates = JSON.parse($("#coordinates").val());
-      } catch(err){
-        alert("Select the area on the image where the problem is located!");
-      }
-
-      var c = document.getElementById("test2");
-      var ctx = c.getContext("2d");
-      ctx.beginPath();
-      ctx.clearRect(0,0,c.width, c.height);  
-
-      WrittenHeuristics.insert({image: 'test2', priority: submittedPriority, problem: submittedProblem, fix: submittedFix, date_created: Date.now(), coordinates: submittedCoordinates});
-      $("#priority").val("");
-      $("#problem").val("");
-      $("#fix").val("");
-      $("#coordinates").val("");
-      $("#heuristic").fadeOut(function(){
-        $("#more").fadeIn('slow');
-      });
-    },
-
-    'click #exit': function(){
-      random = Math.floor(Math.random()*2);
-      if(random == 0){
-        Router.go('/begin-testing/' + 'gMih5');
-      } else {
-        Router.go('/begin-testing/' + 'aXcy2');
-      }
-    },
-
-    'click #submitMore': function(){
-      $("#more").fadeOut(function(){
-        $("#heuristic").fadeIn('slow');
-      });
-    }
-  });
 
   Template.ViewHeuristics.events({
     'click #loadMap': function() {
@@ -722,14 +656,63 @@ if(Meteor.isClient){
         HierarchyHeuristics.insert({imageName: image, userGroup: user_group, element: elementName, score: value});
       }
 
-      if(Router.current().path.substring(21,24) == 'abc'){
-        Router.go('/written-heuristics/1');
-      } else if(Router.current().path.substring(21,24) == 'def'){
-        Router.go('/written-heuristics/2');
+      imageHidden = Router.current().path.substring(21,24);
+      userGroup = Router.current().path.substring(25);
+
+      Router.go('/written-heuristic/' + imageHidden + '/' + userGroup);
+
+    }
+  });
+
+  Template.WrittenHeuristics.events({
+    'click #submit': function() {
+      currentImage = imageIdentifier[Router.current().path.substring(19,22)];
+      user_group = userGroupIdentifier[Router.current().path.substring(23)];
+
+      //heuristic data!
+      submittedPriority = $("#priority").val();
+      submittedProblem = $("#problem").val();
+      submittedFix = $("#fix").val();
+      try {
+        submittedCoordinates = JSON.parse($("#coordinates").val());
+      } catch(err){
+        alert("Select the area on the image where the problem is located!");
+        return;
       }
+      var c = document.getElementById("test1");
+      var ctx = c.getContext("2d");
+      ctx.beginPath();
+      ctx.clearRect(0,0,c.width, c.height);   
+
+      console.log(currentImage + user_group);
+      WrittenHeuristics.insert({image: currentImage, userGroup: user_group, priority: submittedPriority, problem: submittedProblem, fix: submittedFix, date_created: Date.now(), coordinates: submittedCoordinates });
+      $("#priority").val("");
+      $("#problem").val("");
+      $("#fix").val("");
+      $("#coordinates").val("");
+      $("#heuristic").fadeOut(function(){
+        $("#more").fadeIn();
+      });
+    },
+
+    'click #exit': function(){
+      image = imageIdentifier[Router.current().path.substring(21,24)];
+      user_group = Router.current().path.substring(23);
+
+      random = Math.floor(Math.random()*2);
+      if(random == 0){
+        Router.go('/begin-testing/' + user_group);
+      }
+    },
+
+    'click #submitMore': function(){
+      $("#more").fadeOut(function(){
+        $("#heuristic").fadeIn('slow');
+      });
     }
   });
 }
+
 
 
 
